@@ -8,41 +8,240 @@ const int MaxProducts = 100;
 
 class InventorySystem {
 private:
-  string ID[MaxProducts];
-  string Product_Name[MaxProducts];
-  string Category[MaxProducts];
-  double Price[MaxProducts];
-  int Quantity[MaxProducts];
-  int Reorder_level[MaxProducts];
-  int Product_count;
-  
-public:
+    string ID[MaxProducts];
+    string Product_Name[MaxProducts];
+    string Category[MaxProducts];
+    double Price[MaxProducts];
+    int Quantity[MaxProducts];
+    int Reorder_level[MaxProducts];
+    int Product_count;
+    // Load from File
+    void load_from_file() {
+        ifstream inputFile;
+        inputFile.open("Inventory.txt");
+        //Check if the document can be opened
+        if(!inputFile) {
+            cout << "Error opening the file.\n";
+            return;
+        }
+        Product_count = 0;
+        while (Product_count < MaxProducts && inputFile >> ID[Product_count] >> ws && getline(inputFile, Product_Name[Product_count], ' ') && inputFile >> Category[Product_count] >> Price[Product_count] >> Quantity[Product_count] >> Reorder_level[Product_count]) {
+            Product_count++;
+        }
+        inputFile.close();
+    }
 
-  // Main menu
-  void display_menu() {
-    int choice;
-    do {
-      cout << "\n===== STOCK INVENTORY MANAGEMENT SYSTEM =====" << endl;
-      cout << "1. List all products" << endl;
-      cout << "2. View a particular product" << endl;
-      cout << "3. Add a product" << endl;    
-      cout << "4. Delete product(s)" << endl;
-      cout << "5. Search product(s)" << endl;
-      cout << "6. Update a product" << endl;
-      cout << "7. Save and Exit" << endl;
-      cout << "Enter your choice: ";
-      cin >> choice;
-      // Switch to the corresponding operations
-      switch(choice) {
-        case 1: 
-        case 2: 
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        default: cout << "Invalid choice! Try again." << endl; 
-      }
-    } while(choice != 7);
-  }
-}；
+public:
+    InventorySystem() : Product_count(0) {
+        load_from_file();
+    }
+    // User Authentication
+    void login() {
+        string username, password;
+        int attempts = 0;
+        const int Max_attempts = 3;
+        while (attempts < Max_attempts) {
+            cout << "===== LOGIN SYSTEM =====" << endl;
+            cout << "Username: ";
+            getline(cin, username);
+            cout << "Password: ";
+            getline(cin, password);
+            if (username == "Grocery Store" && password == "gro12345") {
+                cout << "\nLogin successful!" << endl;
+                break;
+            }
+            else {
+                attempts++;
+                if (attempts < Max_attempts) {
+                    cout << "Username or Password invalid! Please try again!" << endl << endl;
+                }
+                else {
+                    cout << "Login failed! System exiting..." << endl;
+                    exit(0);
+                }
+            }
+        }
+    }
+    // Main menu
+    void display_menu() {
+        int choice;
+        do {
+            cout << "\n===== STOCK INVENTORY MANAGEMENT SYSTEM =====" << endl;
+            cout << "1. List all products" << endl;
+            cout << "2. View a particular product" << endl;
+            cout << "3. Add a product" << endl;
+            cout << "4. Delete product(s)" << endl;
+            cout << "5. Search product(s)" << endl;
+            cout << "6. Update a product" << endl;
+            cout << "7. Save and Exit" << endl;
+            cout << "Enter your choice: ";
+            cin >> choice;
+            // Switch to the corresponding operations
+            switch(choice) {
+            case 1:
+            case 2:
+                view_Product();
+                break;
+            case 3:
+            case 4:
+            case 5:
+                search_Product();
+                break;
+            case 6:
+            case 7:
+                cout << "\nSaving data and exiting..." << endl;
+                save_exit();
+                return;
+            default:
+                cout << "Invalid choice! Try again." << endl;
+                break;
+            }
+        } while(choice != 7);
+    }
+    // 2. View a particular product
+    void view_Product() {
+        // Check for products in current inventory
+        if(Product_count == 0) {
+            cout << "\nThere are currently no products in stock!" << endl;
+            return;
+        }
+        string viewID;
+        cout << "\n========== VIEW A PARTICULAR PRODUCT ==========" << endl;
+        cout << "Enter the product ID you want to view: ";
+        cin.ignore();
+        getline(cin, viewID);
+        // Check if the product ID is in the list, and display the corresponding product
+        bool found = false;
+        for(int i = 0; i < Product_count; i++) {
+            if (ID[i] == viewID) {
+                cout << "\n===== PRODUCT DETAIL =====" << endl;
+                cout << "ID: " << ID[i] << "\nName: " << Product_Name[i] << "\nCategory: " << Category[i] << "\nPrice: RM" << fixed << setprecision(2) << Price[i] << "\nQuantity: " << Quantity[i] << "\nRe-order Level: " << Reorder_level[i] << endl;
+                if (Quantity[i] < Reorder_level[i]) {
+                    cout << "\nWarning: Stock is below restock level!";
+                }
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            cout << "Product with ID \'" << viewID << "\' not found!" << endl;
+        }
+    }
+    // 5. Search products(s)
+    void search_Product() {
+        // Check for products in current inventory
+        if(Product_count == 0) {
+            cout << "\nThere are currently no products in stock!" << endl;
+            return;
+        }
+        // Search for products by name,category or unique ID & filter products based on stock levels or price range
+        int searchpro;
+        string searchname, searchcategory, searchID;
+        do {
+            cout << "\n========== SEARCH PRODUCT(S) ==========";
+            cout << "\n1. Name" << endl;
+            cout << "2. Category" << endl;
+            cout << "3. ID" << endl;
+            cout << "4. Stock levels" << endl;
+            cout << "5. Price range" << endl;
+            cout << "6. Back to Main Menu" << endl;
+            cout << "Please select an action: ";
+            cin >> searchpro;
+            // Switch to the corresponding action
+            bool found = false;
+            switch(searchpro) {
+            case 1:
+                // Search by Name
+                cout << "Enter product name: ";
+                cin.ignore();
+                getline(cin, searchname);
+                for (int i = 0; i < Product_count; i++) {
+                    if (Product_Name[i] == searchname) {
+                        cout << "\n========================================== SEARCH RESULTS ==========================================" << endl;
+                        cout << setw(8) << "ID" << setw(20) << "Name" << setw(20) << "Category" << setw(15) << "Price (RM)" << setw(15) << "Quantity" << setw(20) << "Re-order Level" << endl;
+                        cout << setw(8) << ID[i] << setw(20) << Product_Name[i] << setw(20) << Category[i] << setw(15) << fixed << setprecision(2) << Price[i] << setw(15) << Quantity[i] << setw(20) << Reorder_level[i] << endl;
+                        if (Quantity[i] < Reorder_level[i]) {
+                        cout << "\nWarning: Stock is below restock level!";
+                        }
+                        found = true;
+                    }
+                }
+                if(!found) {
+                    cout << "Product with the name \'" << searchname << "\' not found!" << endl;
+                }
+                break;
+            case 2:
+                // Search by Category
+                cout << "Enter product Category: ";
+                cin.ignore();
+                getline(cin, searchcategory);
+                for (int i = 0; i < Product_count; i++) {
+                    if (Category[i] == searchcategory) {
+                        cout << "\n========================================== SEARCH RESULTS ==========================================" << endl;
+                        cout << setw(10) << "ID" << setw(20) << "Name" << setw(20) << "Category" << setw(15) << "Price (RM)" << setw(15) << "Quantity" << setw(20) << "Re-order Level" << endl;
+                        cout << setw(8) << ID[i] << setw(20) << Product_Name[i] << setw(20) << Category[i] << setw(15) << fixed << setprecision(2) << Price[i] << setw(15) << Quantity[i] << setw(20) << Reorder_level[i] << endl;
+                        if (Quantity[i] < Reorder_level[i]) {
+                        cout << "\nWarning: Stock is below restock level!";
+                        }
+                        found = true;
+                    }
+                }
+                if(!found) {
+                    cout << "Product with the category \'" << searchcategory << "\' not found!" << endl;
+                }
+                break;
+            case 3:
+                // Search by ID
+                cout << "Enter product ID: ";
+                cin.ignore();
+                getline(cin, searchID);
+                for (int i = 0; i < Product_count; i++) {
+                    if (ID[i] == searchID) {
+                        cout << "\n========================================== SEARCH RESULTS ==========================================" << endl;
+                        cout << setw(10) << "ID" << setw(20) << "Name" << setw(20) << "Category" << setw(15) << "Price (RM)" << setw(15) << "Quantity" << setw(20) << "Re-order Level" << endl;
+                        cout << setw(8) << ID[i] << setw(20) << Product_Name[i] << setw(20) << Category[i] << setw(15) << fixed << setprecision(2) << Price[i] << setw(15) << Quantity[i] << setw(20) << Reorder_level[i] << endl;
+                        if (Quantity[i] < Reorder_level[i]) {
+                        cout << "\nWarning: Stock is below restock level!";
+                        }
+                        found = true;
+                    }
+                }
+                if(!found) {
+                    cout << "Product with the ID \'" << searchID << "\' not found!" << endl;
+                }
+                break;
+            case 4:
+                // Filter products based on stock levels
+            case 5:
+                // Filter products based on price range
+            case 6:
+                return;
+            default:
+                cout << "Invalid choice!" << endl;
+                break;
+            }
+        } while (searchpro != 6);
+    }
+    // 7. Save and exit
+    void save_exit() {
+        ofstream outputFile;
+        outputFile.open("Inventory.txt");
+        if(outputFile) {
+            for (int i = 0; i < Product_count; i++) {
+                outputFile << ID[i] << " " << Product_Name[i] << " " << Category[i] << " " << Price[i] << " " << Quantity[i] << " " << Reorder_level[i] << endl;
+            }
+            outputFile.close();
+        }
+        else {
+            cout << "Error opening the file.\n";
+        }
+    }
+};
+
+int main() {
+    InventorySystem system;
+    system.login();
+    system.display_menu();
+    cout << "Program truly ended!" << endl;
+    return 0;
+}
