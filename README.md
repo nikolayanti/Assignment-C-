@@ -212,8 +212,93 @@ public:
                 break;
             case 4:
                 // Filter products based on stock levels
+                int threshold;
+
+                // Input validation
+                while(true){
+                cout<<"Enter maximum stock level to filter: ";
+                cin>>threshold;
+                if(cin.fail() || threshold<0){
+                cin.clear();
+                while(cin.get()!='\n');
+                cout<<"Invalid input. PLease enter a positive integer."<<endl;
+                }else{
+                break;}
+                }
+
+                // Display Header
+                cout<<"\n====ITEMS WITH STOCK ≤ "<<threshold<<"===="<<endl;
+                cout<<setw(8)<<"ID"<<setw(20)<<"Name"<<setw(10)<<"Quantity"<<setw(15)<<"Reorder Level"<<setw(10)<<"Status"<<endl;
+                cout<<"----------------------------------------------------"<<endl;
+
+                bool found=false;
+
+                // Loop through all the products
+                for(int i=0;i<Product_count;i++){
+                if(Quantity[i]<=threshold){
+                cout<<setw(8)<<ID[i]<<setw(20)<<Product_Name[i]<<setw(10)<<Quantity[i]<<setw(15)<<Reorder_level[i];
+
+                // Low stock warning
+                if(Quantity[i]<Reorder_level[i]){
+                cout<<setw(10)<<"LOW STOCK";}
+                cout<<endl;
+                found=true;}
+                }
+
+                // If no products matches the filter
+                if(!found){
+                cout<<"No items found."<<endl;}
+                break;
+                }
             case 5:
                 // Filter products based on price range
+                double minPrice, maxPrice;
+
+                // Min price
+                while(true){
+                cout<<"Enter minimum price: RM";
+                cin>>minPrice;
+                if(cin.fail()||minPrice<0){
+                cin.clear();
+                while(cin.get()!='\n');
+                cout<<"Invalid input. Please enter a positive number."<<endl;
+                }else{
+                break;}
+                }
+
+                // Max price
+                while(true){
+                cout<<"Enter maximum price: RM";
+                cin>>maxPrice;
+                if(cin.fail()||maxPrice<minPrice){
+                cin.clear();
+                while(cin.get()!='\n');
+                cout<<"Invalid input. Please enter price more than RM"<<minPrice<<"."<<endl;
+                }else{
+                break;}
+                }
+
+                // Display Header
+                cout<<"\n===== PRODUCTS (RM"<<minPrice<<" - RM"<<maxPrice<<") ====="<<endl;
+                cout<<setw(8)<<"ID"<<setw(20)<<"Name"<<setw(15)<<"Price"<<setw(10)<<"Qty"<<setw(15)<<"Status"<<endl;
+                cout<<"----------------------------------------------------"<<endl;
+
+                found=false;
+                for(int i=0;i<Product_count;i++){
+                if(Price[i]>=minPrice&&Price[i]<=maxPrice){
+                cout<<setw(8)<<ID[i]<<setw(20)<<Product_Name[i]<<setw(15)<<fixed<<setprecision(2)<<Price[i]<<setw(10)<<Quantity[i];
+
+                // Low stock warning
+                if(Quantity[i]<Reorder_level[i]){
+                cout<<setw(15)<<"LOW STOCK";}
+                cout<<endl;
+                found=true;}
+                }
+
+            if(!found){
+            cout<<"No products found in this price range."<<endl;}
+            break;
+            }
             case 6:
                 return;
             default:
