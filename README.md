@@ -303,7 +303,6 @@ public:
                 return;
             default:
                 cout << "Invalid choice!" << endl;
-                break;
             }
         } while (searchpro != 6);
     }
