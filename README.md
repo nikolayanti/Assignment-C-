@@ -327,6 +327,9 @@ public:
                 return;
             default:
                 cout << "Invalid choice!" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                break;
             }
         } while (searchpro != 6);
     }
