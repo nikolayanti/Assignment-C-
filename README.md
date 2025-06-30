@@ -16,13 +16,13 @@ private:
     int Reorder_level[MaxProducts];
     int Product_count;
 
-   /* Load data from text file
+  /* Load data from text file
        File format: ID Product_Name(no space) Category(no space) Price Quantity Reorder-level
        Example:  P001 Mister_Potato Snacks 4.5 49 15
        Note: Product name and Category cannot include space (use underscore to replace space)
-       Data validation: 
+       Data validation:
        1. Price and Quantity should be positive number
-       2. File must contain at least 30 different products*/
+       2. File must contain at least 30 different products */
     void load_from_file() {
         const int MinProducts = 30; // Minimum products require
         ifstream inputFile;
@@ -60,7 +60,7 @@ private:
 
         inputFile.close();
     }
-
+    
 public:
     InventorySystem() : Product_count(0) {
         load_from_file();
