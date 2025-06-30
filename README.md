@@ -17,7 +17,7 @@ private:
     int Product_count;
 
    /* Load data from text file
-       File format: ID Product_Name(without space) Category(without space) Price Quantity Reorder-level
+       File format: ID Product_Name(no space) Category(no space) Price Quantity Reorder-level
        Example:  P001 Mister_Potato Snacks 4.5 49 15
        Note: Product name and Category cannot include space (use underscore to replace space)
        Data validation: 
