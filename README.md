@@ -164,13 +164,13 @@ public:
             cin >> searchpro;
 
             // Switch to the corresponding action
-            bool found = false;
             switch(searchpro) {
-            case 1:
+            case 1: {
                 // Search by Name
                 cout << "Enter product name: ";
                 cin.ignore();
                 getline(cin, searchname);
+                bool found = false;
                 for (int i = 0; i < Product_count; i++) {
                     if (Product_Name[i] == searchname) {
                         cout << "\n================================================= SEARCH BY NAME =================================================" << endl;
@@ -189,11 +189,13 @@ public:
                     cout << "Product with the name \'" << searchname << "\' not found!" << endl;
                 }
                 break;
-            case 2:
+            }
+            case 2: {
                 // Search by Category
                 cout << "Enter product Category: ";
                 cin.ignore();
                 getline(cin, searchcategory);
+                bool found = false;
                 for (int i = 0; i < Product_count; i++) {
                     if (Category[i] == searchcategory) {
                         cout << "\n=============================================== SEARCH BY CATEGORY ===============================================" << endl;
@@ -212,11 +214,13 @@ public:
                     cout << "Product with the category \'" << searchcategory << "\' not found!" << endl;
                 }
                 break;
-            case 3:
+            }
+            case 3: {
                 // Search by ID
                 cout << "Enter product ID: ";
                 cin.ignore();
                 getline(cin, searchID);
+                bool found = false;
                 for (int i = 0; i < Product_count; i++) {
                     if (ID[i] == searchID) {
                         cout << "\n================================================== SEARCH BY ID ==================================================" << endl;
@@ -235,6 +239,7 @@ public:
                     cout << "Product with the ID \'" << searchID << "\' not found!" << endl;
                 }
                 break;
+            }
             case 4: {
                 // Filter products based on stock levels
                 int threshold;
