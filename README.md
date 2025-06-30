@@ -16,11 +16,13 @@ private:
     int Reorder_level[MaxProducts];
     int Product_count;
 
-    /* Load data from text file
+   /* Load data from text file
        File format: ID Product_Name(without space) Category(without space) Price Quantity Reorder-level
        Example:  P001 Mister_Potato Snacks 4.5 49 15
        Note: Product name and Category cannot include space (use underscore to replace space)
-       Requirement: File must contain at least 30 different products*/
+       Data validation: 
+       1. Price and Quantity should be positive number
+       2. File must contain at least 30 different products*/
     void load_from_file() {
         const int MinProducts = 30; // Minimum products require
         ifstream inputFile;
@@ -41,8 +43,12 @@ private:
             && getline(inputFile, Product_Name[Product_count], ' ') // Read the product name (end by space)
             && getline(inputFile, Category[Product_count], ' ') // Read the product's category (end by space)
             && inputFile >> Price[Product_count] >> Quantity[Product_count] >> Reorder_level[Product_count]) {
-            // If the product successful read from the Inventory.txt, the number of products add one
-            Product_count++;
+            // Check for non-negative prices and quantity
+            if (Price[Product_count] < 0 || Quantity[Product_count] < 0) {
+                cout << "Error: invalid data at line " << Product_count+1 << "(Price/Quantity should be positive)." << endl;
+                exit(1);
+            }
+            Product_count++; // Count only when the data is legal
         }
 
         // d. Verify minimum product requirement
