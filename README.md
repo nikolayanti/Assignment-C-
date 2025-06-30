@@ -16,23 +16,42 @@ private:
     int Reorder_level[MaxProducts];
     int Product_count;
 
-    // Load from File
+    /* Load data from text file
+       File format: ID Product_Name(without space) Category(without space) Price Quantity Reorder-level
+       Example:  P001 Mister_Potato Snacks 4.5 49 15
+       Note: Product name and Category cannot include space (use underscore to replace space)
+       Requirement: File must contain at least 30 different products*/
     void load_from_file() {
+        const int MinProducts = 30; // Minimum products require
         ifstream inputFile;
         inputFile.open("Inventory.txt");
-        //Check if the document can be opened
+
+        // a. Check if the file can be opened
         if(!inputFile) {
             cout << "Error opening the file.\n";
-            return;
+            exit(1); // End the program
         }
+
+        // b. Initialize the number of products
         Product_count = 0;
+
+        // c. Read  data line by line
         while (Product_count < MaxProducts
-            && inputFile >> ID[Product_count] >> ws
-            && getline(inputFile, Product_Name[Product_count], ' ')
-               && getline(inputFile, Category[Product_count], ' ')
-               && inputFile >> Price[Product_count] >> Quantity[Product_count] >> Reorder_level[Product_count]) {
+            && inputFile >> ID[Product_count] >> ws // Read the product ID (skip the white space)
+            && getline(inputFile, Product_Name[Product_count], ' ') // Read the product name (end by space)
+            && getline(inputFile, Category[Product_count], ' ') // Read the product's category (end by space)
+            && inputFile >> Price[Product_count] >> Quantity[Product_count] >> Reorder_level[Product_count]) {
+            // If the product successful read from the Inventory.txt, the number of products add one
             Product_count++;
         }
+
+        // d. Verify minimum product requirement
+        if (Product_count < MinProducts) {
+            cout << "Error: The file must include " << MinProducts << " different products, but only " << Product_count << " were found!" << endl;
+            inputFile.close();
+            exit(1);
+        }
+
         inputFile.close();
     }
 
