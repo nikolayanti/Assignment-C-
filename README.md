@@ -26,7 +26,11 @@ private:
             return;
         }
         Product_count = 0;
-        while (Product_count < MaxProducts && inputFile >> ID[Product_count] >> ws && getline(inputFile, Product_Name[Product_count], ' ') && inputFile >> Category[Product_count] >> Price[Product_count] >> Quantity[Product_count] >> Reorder_level[Product_count]) {
+        while (Product_count < MaxProducts
+            && inputFile >> ID[Product_count] >> ws
+            && getline(inputFile, Product_Name[Product_count], ' ')
+               && getline(inputFile, Category[Product_count], ' ')
+               && inputFile >> Price[Product_count] >> Quantity[Product_count] >> Reorder_level[Product_count]) {
             Product_count++;
         }
         inputFile.close();
