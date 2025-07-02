@@ -147,7 +147,7 @@ public:
     /* 2. View a particular product
        Features: 
         a. View product details for the specified ID
-        b. */
+        b. Low inventory warning (triggers when quantity lower than re-order level) */
     void view_Product() {
 
         // Check for products in current inventory
@@ -389,26 +389,33 @@ public:
         } while (searchpro != 6);
     }
 
-    // 7. Save and exit
+    /* 7. Save and exit
+        a. Save the current inventory data into file
+        b. File format: ID Name Category Price(remains 2 decimal places) Quantity Re-order level */
     void save_exit() {
         ofstream outputFile;
         outputFile.open("Inventory.txt");
         if(outputFile) {
-            for (int i = 0; i < Product_count; i++) {
-                outputFile << ID[i] << " " << Product_Name[i] << " " << Category[i] << " " << Price[i] << " " << Quantity[i] << " " << Reorder_level[i] << endl;
+            for (int i = 0; i < Product_count; i++) { // Space-delimited format
+                outputFile << ID[i] << " " << Product_Name[i] << " " << Category[i] 
+                           << " " << fixed << setprecision(2) << Price[i]
+                           << " " << Quantity[i] << " " << Reorder_level[i] << endl;
             }
             outputFile.close();
         }
         else {
-            cout << "Error opening the file.\n";
+            cout << "Error opening the file.\n"; // Output error message when fail to open the file
         }
     }
 };
 
+/* Main entrance of the program
+   Execution process: Construct system object -> login -> enter main menu
+   Note: login() fails will directly exit(0), skipping all subsequent processes */
 int main() {
-    InventorySystem system;
-    system.login();
-    system.display_menu();
+    InventorySystem system; // Triggers constructor
+    system.login(); // Authentication
+    system.display_menu(); // Main loop
     cout << "Program truly ended!" << endl;
     return 0;
 }
