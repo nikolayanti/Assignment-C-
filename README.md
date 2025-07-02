@@ -145,7 +145,6 @@ public:
     }
 
     /* 2. View a particular product
-       Features: 
         a. View product details for the specified ID
         b. Low inventory warning (triggers when quantity lower than re-order level) */
     void view_Product() {
