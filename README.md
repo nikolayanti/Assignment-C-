@@ -101,7 +101,11 @@ public:
         }
     }
     
-    // Main menu
+    /* Main menu control panel interface
+       Features:
+        a. Cycle display the 7 options menu
+        b. Processes only integer inputs from 1 to 7
+        c. Option 7 triggers save and exit the program */
     void display_menu() {
         int choice;
         do {
@@ -132,13 +136,18 @@ public:
                 save_exit();
                 return;
             default:
-                cout << "Invalid choice! Try again." << endl;
+                cout << "Invalid choice! Try again." << endl; // Processes integer inputs other than 1 to 7
+                cin.clear(); // Clear the eror status
+                cin.ignore(100, '\n'); // Skip the invalid input
                 break;
             }
-        } while(choice != 7);
+        } while(choice != 7); // Loops until user selects exit （Option 7)
     }
 
-    // 2. View a particular product
+    /* 2. View a particular product
+       Features: 
+        a. View product details for the specified ID
+        b. */
     void view_Product() {
 
         // Check for products in current inventory
@@ -153,14 +162,19 @@ public:
         cin.ignore();
         getline(cin, viewID);
 
-        // Check if the product ID is in the list, and display the corresponding product
+        // Check if the product ID is in the list
         bool found = false;
         for(int i = 0; i < Product_count; i++) {
-            if (ID[i] == viewID) {
+            if (ID[i] == viewID) { // If the input ID matches with the specified ID, display the product details
                 cout << "\n===== PRODUCT DETAIL =====" << endl;
-                cout << "ID: " << ID[i] << "\nName: " << Product_Name[i] << "\nCategory: " << Category[i] << "\nPrice: RM" << fixed << setprecision(2) << Price[i] << "\nQuantity: " << Quantity[i] << "\nRe-order Level: " << Reorder_level[i] << endl;
-                if (Quantity[i] < Reorder_level[i]) {
-                    cout << "\nWarning: Stock is below restock level!";
+                cout << "ID: " << ID[i] << endl;
+                cout << "Name: " << Product_Name[i] << endl;
+                cout << "Category: " << Category[i] << endl;
+                cout << "Price: RM" << fixed << setprecision(2) << Price[i] << endl; // Fixed the price output to two decimal places
+                cout << "Quantity: " << Quantity[i] << endl;
+                cout << "Re-order Level: " << Reorder_level[i] << endl;
+                if (Quantity[i] < Reorder_level[i]) { 
+                    cout << "\nWarning: Stock is below restock level!"; // Output alert message when stock falls below re-order level
                 }
                 found = true;
                 break;
@@ -168,7 +182,7 @@ public:
         }
 
         if(!found) {
-            cout << "Product with ID \'" << viewID << "\' not found!" << endl;
+            cout << "Product with ID \'" << viewID << "\' not found!" << endl; // Output error message when user inputs invalid ID 
         }
     }
 
