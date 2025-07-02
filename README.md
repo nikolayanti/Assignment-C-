@@ -62,19 +62,26 @@ private:
     }
     
 public:
+    /* InventorySystem class constructor
+       Features:
+        1. Iniatializes Product_count = 0
+        2. Automatically calls load_from_file() to load the data
+       Note: If fail to load the file, Product_count remains 0 */
     InventorySystem() : Product_count(0) {
         load_from_file();
     }
 
-    // User Authentication
+    /* User Authentication
+       Username = "Grocery Store" and Password = "gro12345"
+       Safety mechanism: After 3 failures, forced exit the program*/
     void login() {
         string username, password;
         int attempts = 0;
         const int Max_attempts = 3;
         while (attempts < Max_attempts) {
-            cout << "===== LOGIN SYSTEM (MAX 3 ATTEMPS) =====" << endl;
+            cout << "===== LOGIN SYSTEM =====" << endl;
             cout << "Username: ";
-            getline(cin, username);
+            getline(cin, username); // Use getline to prevent space truncation
             cout << "Password: ";
             getline(cin, password);
             if (username == "Grocery Store" && password == "gro12345") {
@@ -82,18 +89,18 @@ public:
                 break;
             }
             else {
-                attempts++;
-                if (attempts < Max_attempts) {
-                    cout << "Username or Password invalid! Please try again!" << endl << endl;
+                attempts++; // Track failed attempts
+                if (attempts < Max_attempts) { // Maximum 3 attempts
+                    cout << "Username or Password invalid! Remaining attempts: " << 3 - attempts << endl << endl;
                 }
                 else {
                     cout << "Login failed! System exiting..." << endl;
-                    exit(0);
+                    exit(0); // Immediate termination of the program
                 }
             }
         }
     }
-
+    
     // Main menu
     void display_menu() {
         int choice;
