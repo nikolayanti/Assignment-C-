@@ -126,11 +126,17 @@ public:
                 view_Product();
                 break;
             case 3:
+                add_Product(); // add the new information and store into separate array space, not necessarily loop to 100 
+                break;
             case 4:
+                delete_Product(); // enter id and delete product from id
+                break;
             case 5:
-                search_Product();
+                search_Product(); 
                 break;
             case 6:
+                update_Product(); // same as delete but after inputting the id let the user choose information to change 
+                break;
             case 7:
                 cout << "\nSaving data and exiting..." << endl;
                 save_exit();
@@ -184,7 +190,10 @@ public:
             cout << "Product with ID \'" << viewID << "\' not found!" << endl; // Output error message when user inputs invalid ID 
         }
     }
-
+    // 3. Add product(s)
+    void add_Product(){
+        // Check if addition of products does not exceed the limits 
+        
     // 5. Search products(s)
     void search_Product() {
 
