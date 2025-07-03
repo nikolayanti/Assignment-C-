@@ -31,7 +31,7 @@ private:
         // a. Check if the file can be opened
         if(!inputFile) {
             cout << "Error opening the file.\n";
-            exit(1); // End the program
+            exit(1); // Abnormal program termination
         }
 
         // b. Initialize the number of products
@@ -121,33 +121,35 @@ public:
             cin >> choice;
             // Switch to the corresponding operations
             switch(choice) {
-            case 1:
+            case 1: 
+                list_Product(); // Calls the function to view all the products' details
+                break;
             case 2:
-                view_Product();
+                view_Product(); // Calls the function to view product details
                 break;
-            case 3:
-                add_Product(); // add the new information and store into separate array space, not necessarily loop to 100 
+            case 3: // add the new information and store into separate array space, not necessarily loop to 100
+                add_Product(); // Calls the function to add product
                 break;
-            case 4:
-                delete_Product(); // enter id and delete product from id
+            case 4: // enter id and delete product from id
+                delete_Product(); // Calls the function to delete product(s)
                 break;
             case 5:
-                search_Product(); 
+                search_Product(); // Calls the function to search data
                 break;
-            case 6:
-                update_Product(); // same as delete but after inputting the id let the user choose information to change 
+            case 6: // same as delete but after inputting the id let the user choose information to change
+                update_Product(); // Calls the function to update a product
                 break;
             case 7:
                 cout << "\nSaving data and exiting..." << endl;
-                save_exit();
+                save_exit(); // Calls function to save data and exit program
                 return;
             default:
-                cout << "Invalid choice! Try again." << endl; // Processes integer inputs other than 1 to 7
-                cin.clear(); // Clear the eror status
+                cout << "Invalid choice! Try again." << endl; // Handles invalid integer inputs
+                cin.clear(); // Clears the error state of cin
                 cin.ignore(100, '\n'); // Skip the invalid input
                 break;
             }
-        } while(choice != 7); // Loops until user selects exit （Option 7)
+        } while(choice != 7); // Loops until user selects exit Option 7)
     }
 
     /* 2. View a particular product
