@@ -399,7 +399,7 @@ public:
         } while (searchpro != 6);
     }
 
-    /* 7. Save and exit
+   /* 7. Save and exit
         a. Save the current inventory data into file
         b. File format: ID Name Category Price(remains 2 decimal places) Quantity Re-order level */
     void save_exit() {
@@ -407,9 +407,7 @@ public:
         outputFile.open("Inventory.txt");
         if(outputFile) {
             for (int i = 0; i < Product_count; i++) { // Space-delimited format
-                outputFile << ID[i] << " " << Product_Name[i] << " " << Category[i] 
-                           << " " << fixed << setprecision(2) << Price[i]
-                           << " " << Quantity[i] << " " << Reorder_level[i] << endl;
+                outputFile << ID[i] << " " << Product_Name[i] << " " << Category[i]<< " " << fixed << setprecision(2) << Price[i] << " " << Quantity[i] << " " << Reorder_level[i] << endl;
             }
             outputFile.close();
         }
