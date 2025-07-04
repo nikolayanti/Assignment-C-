@@ -149,7 +149,7 @@ public:
                 cin.ignore(100, '\n'); // Skip the invalid input
                 break;
             }
-        } while(choice != 7); // Loops until user selects exit Option 7)
+        } while(choice != 7); // Loops until user selects exit (Option 7)
     }
 
     /* 2. View a particular product
@@ -196,7 +196,7 @@ public:
     void add_Product(){
         // Check if addition of products does not exceed the limits 
         
-    // 5. Search products(s)
+   // 5. Search products(s)
     void search_Product() {
 
         // Check for products in current inventory
@@ -227,12 +227,14 @@ public:
                 cin.ignore();
                 getline(cin, searchname);
                 bool found = false;
+                // // Loops through the data to display the product with the product name
                 for (int i = 0; i < Product_count; i++) {
                     if (Product_Name[i] == searchname) {
                         cout << "\n================================================= SEARCH BY NAME =================================================" << endl;
                         cout << setw(8) << "ID" << setw(20) << "Name" << setw(20) << "Category" << setw(15) << "Price (RM)" << setw(15) << "Quantity" << setw(20) << "Re-order Level" << setw(15) << "Status" << endl;
                         cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
                         cout << setw(8) << ID[i] << setw(20) << Product_Name[i] << setw(20) << Category[i] << setw(15) << fixed << setprecision(2) << Price[i] << setw(15) << Quantity[i] << setw(20) << Reorder_level[i];
+                        // Low stock warning
                         if (Quantity[i] < Reorder_level[i]) {
                             cout << setw(15) << "LOW STOCK";
                         }
@@ -240,7 +242,7 @@ public:
                     }
                 }
                 cout << endl;
-
+                
                 if(!found) {
                     cout << "Product with the name \'" << searchname << "\' not found!" << endl;
                 }
@@ -252,12 +254,14 @@ public:
                 cin.ignore();
                 getline(cin, searchcategory);
                 bool found = false;
+                // Loops through the data to display products with user-entered categories
                 for (int i = 0; i < Product_count; i++) {
                     if (Category[i] == searchcategory) {
                         cout << "\n=============================================== SEARCH BY CATEGORY ===============================================" << endl;
                         cout << setw(8) << "ID" << setw(20) << "Name" << setw(20) << "Category" << setw(15) << "Price (RM)" << setw(15) << "Quantity" << setw(20) << "Re-order Level" << setw(15) << "Status" << endl;
                         cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
                         cout << setw(8) << ID[i] << setw(20) << Product_Name[i] << setw(20) << Category[i] << setw(15) << fixed << setprecision(2) << Price[i] << setw(15) << Quantity[i] << setw(20) << Reorder_level[i];
+                        // Low Stock warning
                         if (Quantity[i] < Reorder_level[i]) {
                             cout << setw(15) << "LOW STOCK";
                         }
@@ -277,12 +281,14 @@ public:
                 cin.ignore();
                 getline(cin, searchID);
                 bool found = false;
+                // Loops through the data to display the product with the ID
                 for (int i = 0; i < Product_count; i++) {
                     if (ID[i] == searchID) {
                         cout << "\n================================================== SEARCH BY ID ==================================================" << endl;
                         cout << setw(8) << "ID" << setw(20) << "Name" << setw(20) << "Category" << setw(15) << "Price (RM)" << setw(15) << "Quantity" << setw(20) << "Re-order Level" << setw(15) << "Status" << endl;
                         cout << "-------------------------------------------------------------------------------------------------------------------" << endl;
                         cout << setw(8) << ID[i] << setw(20) << Product_Name[i] << setw(20) << Category[i] << setw(15) << fixed << setprecision(2) << Price[i] << setw(15) << Quantity[i] << setw(20) << Reorder_level[i];
+                        // Low stock warning
                         if (Quantity[i] < Reorder_level[i]) {
                             cout << setw(15) << "LOW STOCK";
                         }
@@ -388,15 +394,15 @@ public:
                     cout << "No products found in this price range." << endl; }
                 break;
             }
-            case 6:
-                return;
+             case 6:
+                return; // Exit to the main menu
             default:
-                cout << "Invalid choice!" << endl;
-                cin.clear();
-                cin.ignore(1000, '\n');
+                cout << "Invalid choice!" << endl; // Handles invalid integer inputs
+                cin.clear(); // Clears the error state of cin
+                cin.ignore(1000, '\n'); //Skips the invalid input
                 break;
             }
-        } while (searchpro != 6);
+        } while (searchpro != 6); // Loops until user selects back to main menu (Option 6)
     }
 
    /* 7. Save and exit
