@@ -2,6 +2,8 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <cctype>
+#include <regex>
 using namespace std;
 
 const int MaxProducts = 100;
@@ -128,7 +130,7 @@ public:
                 view_Product(); // Calls the function to view product details
                 break;
             case 3:
-                add_Product(); // Calls the function to add product
+                add_Product(); // Calls the function to add product to the list of existing products 
                 break;
             case 4:
                 delete_Product(); // Calls the function to delete product(s)
