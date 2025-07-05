@@ -162,9 +162,9 @@ public:
         }
 
         //display table for inventory tracking
-        cout << "\n========== INVENTORY TRACKING ==========" << endl;
+        cout << "\n============================================= INVENTORY TRACKING ================================================" << endl;
         cout << setw(8) << "ID" << setw(20) << "Name" << setw(20) << "Category" << setw(15) << "Price(RM)" << setw(15) << "Quantity" << setw(20) << "Re-order Level" << setw(15) << "Status" << endl;
-        cout << "--------------------------------------------------------------------------" << endl;
+        cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
 
 
         /*display each product's data */
@@ -182,7 +182,6 @@ public:
         cout << endl;
         }
     }
-
 
     /* 2. View a particular product
         a. View product details for the specified ID
