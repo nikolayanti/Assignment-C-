@@ -194,78 +194,136 @@ public:
         }
     }
 
-    // 3. Add product(s):
-    void add_Product() {
-        if (Product_count >= MaxProducts)  {
-            cout << "\nInventory is full, you can't add more than " << MaxProducts << " products!" << endl;
-            return;
-        }
+     /* 3. Add a new product data to the list of existing product data extracted from read text file :
+      a. Firstly, request for new ID of accepted format ("P034") and store it in the array
+      b. Secondly, input the information required about the new product, and store it in the consecutive array spaces
+      c. Input validation for new data entered, except product name  
+      d. Increment the total array spaces number and store the new data into the new space */ 
 
-        string id, name, category;
-        double price;
-        int quantity, reorder;
-        cin.ignore();
-        cout << "\n========== ADD A PRODUCT ==========" << endl;
-        cout << "Enter Product ID: ";
-        getline(cin, id);
-
-        for (int i = 0; i < Product_count; i++){
-            if (ID[i] == id) {
-                cout << "Error: Product ID already exists!" << endl;
-                return;
-            }
-        }
-
-        cout << "Enter Product Name: ";
-        getline(cin, name);
-
-        cout << "Enter Product Category: ";
-        getline(cin, category);
-
-        while (true) {
-            cout << "Enter Product Price: RM";
-            cin >> price;
-            if (cin.fail() || price < 0) {
-                cin.clear();
-                cin.ignore(100, '\n');
-                cout << "Invalid input. Price must be a non-negative number.\n";
-            }
-            else break;
-        }
-
-        while (true) {
-            cout << "Enter Quantity on hand: ";
-            cin >> quantity;
-            if (cin.fail() || quantity < 0)  {
-                cin.clear();
-                cin.ignore(100, '\n');
-                cout << "Invalid input. Quantity must be a non-negative integer.\n";
-            }
-            else break;
-        }
-
-        while (true) {
-            cout << "Enter Re-order level: ";
-            cin >> reorder;
-            if (cin.fail() || reorder < 0) {
-                cin.clear();
-                cin.ignore(100, '\n');
-                cout << "Invalid input. Reorder level must be a non-negative integer.\n";
-            }
-            else break;
-        }
-
-        ID[Product_count] = id;
-        Product_Name[Product_count] = name;
-        Category[Product_count] = category;
-        Price[Product_count] = price;
-        Quantity[Product_count] = quantity;
-        Reorder_level[Product_count] = reorder;
-        Product_count++;
-
-        cout << "Product added successfully!" << endl;
+void add_Product() 
+{
+    
+    // Check if current product amount does not exceed the maximum amount (100)
+    if (Product_count >= MaxProducts) 
+    {
+        cout << "\nInventory is full, you can't add more than " << MaxProducts << " products!" << endl;
+        return;
     }
 
+    // The "add_" label for naming convention
+    string add_id, add_name, add_category;
+    double add_price;
+    int add_quantity, add_reorder;
+
+    cin.ignore();  // Flush input buffer
+    cout << "\n========== ADD A PRODUCT ==========" << endl;
+
+    // Set the ID to required format as in the source text file for safe sorting 
+    while (true) 
+    {
+        cout << "Enter Product ID, format should be (P###): ";
+        getline(cin, add_id);
+
+        if (add_id.length() == 4 && add_id[0] == 'P' && isdigit(add_id[1]) && isdigit(add_id[2]) && isdigit(add_id[3])) // Checks if ID ifs of format "P033"
+        {
+            int idNumber = stoi(add_id.substr(1));
+            if (idNumber < MaxProducts) break;
+            else
+                cout << "Error: Product ID number must be less than " << MaxProducts << " (e.g., P099).\n"; // Checking if entered ID is not higher than 100, for sorting convention 
+        } 
+        else 
+            cout << "Invalid ID format. Please enter ID in format P followed by 3 digits (e.g., P030).\n";
+        
+    }
+
+    // Checking if ID is already exists 
+    for (int i = 0; i < Product_count; i++) 
+    {
+        if (ID[i] == add_id) 
+        {
+            cout << "Error: Product ID already exists!" << endl;
+            return;
+        }
+    }
+
+    // No validation for the product name, as name "iPhone_15" is accepted 
+    cout << "Enter Product Name: ";
+    getline(cin, add_name);
+
+    // Allowed product categories, that user can add to in the supermarket system
+    const string allowedCategories[] = 
+    { "Snacks", "Beverages", "Grocery", "Meat", "Personal_Care","Electronics", "Sports", "Clothing", "Stationery", "Dairy", "FrozenFood", "Seafood", "Appliances", "Household", "Toys","Furniture", "Books", "Garden", "Tools", "Baby", "Health","Pet_Supplies", "Automotive", "Beauty", "Office_Supplies"};
+
+    /* Listing out all allowed categories for the product and add according to them, if input is incorrect input again until correct 
+    */
+    while (true) {
+        cout << "\nAllowed Categories:\n";
+        for (const string& cat : allowedCategories) // List out all the categories for user 
+            cout << "- " << cat << endl;
+
+        cout << "\nEnter Product Category (enter it exactly as shown above): ";
+        getline(cin, add_category);
+
+        bool valid = false;
+        for (const string& category : allowedCategories) {
+            if (add_category == category) {
+                valid = true;
+                break;
+            }
+        }
+
+        if (!valid) {
+            cout << "Invalid category. Input again.\n";
+        } else break;
+    }
+
+    // Product price validation, while loop runs to get the non-character, non-negative number 
+    while (true) {
+        cout << "Enter Product Price: RM";
+        cin >> add_price;
+
+        if (cin.fail() || add_price < 0) { // Check price contain characters or negative number 
+            cin.clear(); 
+            cin.ignore(100, '\n');
+            cout << "Invalid input. Price must be a non-negative number.\n"; // loop will run infinitely until required data received 
+        } else break;
+    }
+
+    // Product quantity validation, same condition as set for price 
+    while (true) {
+        cout << "Enter Quantity on hand: ";
+        cin >> add_quantity;
+
+        if (cin.fail() || add_quantity < 0) {
+            cin.clear();
+            cin.ignore(100, '\n');
+            cout << "Invalid input. Quantity must be a non-negative number.\n";
+        } else break;
+    }
+
+    // Reorder level validation, same as other numeric data type validations in this function 
+    while (true) {
+        cout << "Enter Re-order level: ";
+        cin >> add_reorder;
+
+        if (cin.fail() || add_reorder < 0) {
+            cin.clear();
+            cin.ignore(100, '\n');
+            cout << "Invalid input. Reorder level must be a non-negative integer.\n";
+        } else break;
+    }
+
+    // Store the values in the consecutive array spaces  
+    ID[Product_count] = add_id;
+    Product_Name[Product_count] = add_name;
+    Category[Product_count] = add_category;
+    Price[Product_count] = add_price;
+    Quantity[Product_count] = add_quantity;
+    Reorder_level[Product_count] = add_reorder;
+    Product_count++; // Increment the count of the products, if new one is successfully added 
+
+    cout << "Product added successfully!" << endl;
+}
 
     // 4. Delete product(s)
     void delete_Product() {
