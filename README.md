@@ -409,7 +409,7 @@ public:
 
             // Switch to the corresponding action
             switch(searchpro) {
-            case 1: {
+           case 1: {
                 // Search by Name
                 cout << "Enter product name: ";
                 cin.ignore();
@@ -426,6 +426,7 @@ public:
                         if (Quantity[i] < Reorder_level[i]) {
                             cout << setw(15) << "LOW STOCK";
                         }
+                        cout << endl;
                         found = true;
                     }
                 }
@@ -453,9 +454,9 @@ public:
                         if (Quantity[i] < Reorder_level[i]) {
                             cout << setw(15) << "LOW STOCK";
                         }
+                        cout << endl;
                         found = true;
                     }
-                    cout << endl;
                 }
                 cout << endl;
 
@@ -481,6 +482,7 @@ public:
                         if (Quantity[i] < Reorder_level[i]) {
                             cout << setw(15) << "LOW STOCK";
                         }
+                        cout << endl;
                         found = true;
                     }
                 }
