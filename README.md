@@ -455,6 +455,7 @@ public:
                         }
                         found = true;
                     }
+                    cout << endl;
                 }
                 cout << endl;
 
