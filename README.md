@@ -212,7 +212,7 @@ public:
                 cout << "Quantity: " << Quantity[i] << endl;
                 cout << "Re-order Level: " << Reorder_level[i] << endl;
                 if (Quantity[i] < Reorder_level[i]) {
-                    cout << "\nWarning: Stock is below restock level!"; // Output alert message when stock falls below re-order level
+                    cout << ""Status: LOW STOCKl!" << endl; // Output alert message when stock falls below re-order level
                 }
                 found = true;
                 break;
