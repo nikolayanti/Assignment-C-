@@ -444,10 +444,10 @@ public:
                 bool found = false;
                 // Loops through the data to display products with user-entered categories
                 for (int i = 0; i < Product_count; i++) {
+                    cout << "\n=============================================== SEARCH BY CATEGORY ===============================================" << endl;
+                    cout << setw(8) << "ID" << setw(20) << "Name" << setw(20) << "Category" << setw(15) << "Price (RM)" << setw(15) << "Quantity" << setw(20) << "Re-order Level" << setw(15) << "Status" << endl;
+                    cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
                     if (Category[i] == searchcategory) {
-                        cout << "\n=============================================== SEARCH BY CATEGORY ===============================================" << endl;
-                        cout << setw(8) << "ID" << setw(20) << "Name" << setw(20) << "Category" << setw(15) << "Price (RM)" << setw(15) << "Quantity" << setw(20) << "Re-order Level" << setw(15) << "Status" << endl;
-                        cout << "-----------------------------------------------------------------------------------------------------------------" << endl;
                         cout << setw(8) << ID[i] << setw(20) << Product_Name[i] << setw(20) << Category[i] << setw(15) << fixed << setprecision(2) << Price[i] << setw(15) << Quantity[i] << setw(20) << Reorder_level[i];
                         // Low Stock warning
                         if (Quantity[i] < Reorder_level[i]) {
