@@ -127,16 +127,16 @@ public:
             case 2:
                 view_Product(); // Calls the function to view product details
                 break;
-            case 3: // add the new information and store into separate array space, not necessarily loop to 100
+            case 3: 
                 add_Product(); // Calls the function to add product
                 break;
-            case 4: // enter id and delete product from id
+            case 4: 
                 delete_Product(); // Calls the function to delete product(s)
                 break;
             case 5:
                 search_Product(); // Calls the function to search data
                 break;
-            case 6: // same as delete but after inputting the id let the user choose information to change
+            case 6: 
                 update_Product(); // Calls the function to update a product
                 break;
             case 7:
