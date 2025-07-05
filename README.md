@@ -212,7 +212,7 @@ public:
                 cout << "Quantity: " << Quantity[i] << endl;
                 cout << "Re-order Level: " << Reorder_level[i] << endl;
                 if (Quantity[i] < Reorder_level[i]) {
-                    cout << ""Status: LOW STOCK!" << endl; // Output alert message when stock falls below re-order level
+                    cout << "Status: LOW STOCK!" << endl; // Output alert message when stock falls below re-order level
                 }
                 found = true;
                 break;
@@ -255,10 +255,10 @@ public:
                 if (idNumber < MaxProducts) break;
             else
                 cout << "Error: Product ID number must be less than " << MaxProducts << " (e.g., P099).\n"; // Checking if entered ID is not higher than 100, for sorting convention
-        }
+            }
         else
             cout << "Invalid ID format. Please enter ID in format P followed by 3 digits (e.g., P030).\n";
-    }
+        }
 
         // Checking if ID is already exists
         for (int i = 0; i < Product_count; i++) {
@@ -347,66 +347,57 @@ public:
         cout << "Product added successfully!" << endl;
     }
 
-    // 4. Delete product(s)
-    /*
-6. Delete a product based on Product ID:
-   a. Prompt for a valid product ID (P### format), verify its existence in the array
-   b. If matching ID found, shift all data back to remove the product from array 
-   c. Reduce Product_count to show product deleted from the list
-   d. If ID not found, show error message to user
-*/
-void delete_Product()
-{
-    if (Product_count == 0)
-    {
-        cout << "Inventory is empty, no products to delete!" << endl;
-        return;
-    }
 
-    cin.ignore();
-    string deleteID;
-    cout << "========== DELETE PRODUCT ==========" << endl;
+    /* 4. Delete a product based on Product ID:
+        a. Prompt for a valid product ID (P### format), verify its existence in the array
+        b. If matching ID found, shift all data back to remove the product from array
+        c. Reduce Product_count to show product deleted from the list
+        d. If ID not found, show error message to user */
+    void delete_Product() {
+        if (Product_count == 0) {
+            cout << "Inventory is empty, no products to delete!" << endl;
+            return;
+        }
 
-    // Validating input for ID
-    while (true)
-    {
-        cout << "Enter the Product ID to delete (format: P###): ";
-        getline(cin, deleteID);
-        if (deleteID.length() == 4 && deleteID[0] == 'P' && isdigit(deleteID[1]) && isdigit(deleteID[2]) && isdigit(deleteID[3]))
-            break;
-        else
-            cout << "Invalid ID format. Please enter ID in format P followed by 3 digits (e.g., P030)." << endl;
-    }
+        cin.ignore();
+        string deleteID;
+        cout << "========== DELETE PRODUCT ==========" << endl;
 
-    bool found = false;
-    // Search for the particular product ID from the list  
-    for (int i = 0; i < Product_count; i++)
-    {
-        if (ID[i] == deleteID)
-        {
-            // Shift all product data in one space to the left to show the reduced count
-            for (int j = i; j < Product_count - 1; j++)
-            {
-                ID[j] = ID[j + 1];
-                Product_Name[j] = Product_Name[j + 1];
-                Category[j] = Category[j + 1];
-                Price[j] = Price[j + 1];
-                Quantity[j] = Quantity[j + 1];
-                Reorder_level[j] = Reorder_level[j + 1];
+        // Validating input for ID
+        while (true) {
+            cout << "Enter the Product ID to delete (format: P###): ";
+            getline(cin, deleteID);
+            if (deleteID.length() == 4 && deleteID[0] == 'P' && isdigit(deleteID[1]) && isdigit(deleteID[2]) && isdigit(deleteID[3]))
+                break;
+            else
+                cout << "Invalid ID format. Please enter ID in format P followed by 3 digits (e.g., P030)." << endl;
+        }
+
+        bool found = false;
+        // Search for the particular product ID from the list
+        for (int i = 0; i < Product_count; i++) {
+            if (ID[i] == deleteID) {
+                // Shift all product data in one space to the left to show the reduced count
+                for (int j = i; j < Product_count - 1; j++) {
+                    ID[j] = ID[j + 1];
+                    Product_Name[j] = Product_Name[j + 1];
+                    Category[j] = Category[j + 1];
+                    Price[j] = Price[j + 1];
+                    Quantity[j] = Quantity[j + 1];
+                    Reorder_level[j] = Reorder_level[j + 1];
+                }
+
+                Product_count--; // Decrement the count after product deleted from the list
+                found = true;
+                cout << "Product deleted successfully!" << endl;
+                break;
             }
-
-            Product_count--; // Decrement the count after product deleted from the list 
-            found = true;
-            cout << "Product deleted successfully!" << endl;
-            break;
+        }
+        // Display that product with the ID does not exist within the list
+        if (!found) {
+            cout << "Product with ID '" << deleteID << "' is not in the list!" << endl;
         }
     }
-// Display that product with the ID does not exist within the list 
-    if (!found)
-    {
-        cout << "Product with ID '" << deleteID << "' is not in the list!" << endl;
-    }
-}
 
    // 5. Search products(s)
     void search_Product() {
@@ -619,91 +610,79 @@ void delete_Product()
             }
         } while (searchpro != 6); // Loops until user selects back to main menu (Option 6)
     }
-    /*
-6. Update product information for a specific Product ID:
-   a. Prompt for a valid product ID (P### format), verify its existence in the array
-   b. Display details if inputted ID matches with the existing one from array 
-   c. Display update menu to let user choose type of information to update 
-   d. Validate input based on its type 
-   e. Continue allowing updates until user exits from update menu by entering sentinel value 
-*/
 
-void update_Product() 
-{
-    if (Product_count == 0) 
-    {
-        cout << "No products available to update." << endl;
-        return;
-    }
-
-    cin.ignore();
-    string updateID;
-    cout << "========== UPDATE PRODUCT ==========" << endl;
-    while (true) {
-    // Validating input for ID 
-        cout << "Enter the Product ID to update (format: P###): ";
-        getline(cin, updateID);
-        if (updateID.length() == 4 && updateID[0] == 'P' && isdigit(updateID[1]) && isdigit(updateID[2]) && isdigit(updateID[3]))
-            break;
-        else
-            cout << "Invalid ID format. Please enter ID in format P followed by 3 digits (e.g., P030)." << endl;
-    }
-
-    int index = -1; 
-    // Checking for matching ID in the ID array 
-    for (int i = 0; i < Product_count; i++) 
-    {
-        if (ID[i] == updateID) 
-        {
-            index = i;
-            break;
+    /* 6. Update product information for a specific Product ID:
+        a. Prompt for a valid product ID (P### format), verify its existence in the array
+        b. Display details if inputted ID matches with the existing one from array
+        c. Display update menu to let user choose type of information to update
+        d. Validate input based on its type
+        e. Continue allowing updates until user exits from update menu by entering sentinel value */
+    void update_Product() {
+        if (Product_count == 0) {
+            cout << "No products available to update." << endl;
+            return;
         }
-    }
 
-    if (index == -1) 
-    {
-        cout << "Product with ID '" << updateID << "' is not found in the current product list!" << endl;
-        return;
-    }
-
-    int choice;
-    // Do while loop to keep entering the data until user exits
-    do 
-        {
-        cout << "===== CH PRODUCT DATA =====" << endl;
-        cout << "ID: " << ID[index] << endl;
-        cout << "Name: " << Product_Name[index] << endl;
-        cout << "Category: " << Category[index] << endl;
-        cout << "Price: RM" << fixed << setprecision(2) << Price[index] << endl;
-        cout << "Quantity: " << Quantity[index] << endl;
-        cout << "Reorder Level: " << Reorder_level[index] << endl;
-
-        cout << "Choose data to update (enter 0 to exit):" << endl;
-        cout << "1. Name \n2. Category \n3. Price \n4. Quantity \n5. Reorder Level \n0. Done updating" << endl;
-        cout << "Enter your choice: ";
-        cin >> choice;
         cin.ignore();
-/* Switch statement to let the user choose which data to update, input validation for non-negative numbers where required and character data (same as in add_Product function) */
-        switch (choice) 
-        {
+        string updateID;
+        cout << "========== UPDATE PRODUCT ==========" << endl;
+        while (true) {
+        // Validating input for ID
+            cout << "Enter the Product ID to update (format: P###): ";
+            getline(cin, updateID);
+            if (updateID.length() == 4 && updateID[0] == 'P' && isdigit(updateID[1]) && isdigit(updateID[2]) && isdigit(updateID[3]))
+                break;
+            else
+                cout << "Invalid ID format. Please enter ID in format P followed by 3 digits (e.g., P030)." << endl;
+        }
+
+        int index = -1;
+        // Checking for matching ID in the ID array
+        for (int i = 0; i < Product_count; i++) {
+            if (ID[i] == updateID) {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1) {
+            cout << "Product with ID '" << updateID << "' is not found in the current product list!" << endl;
+            return;
+        }
+
+        int choice;
+        // Do while loop to keep entering the data until user exits
+        do {
+            cout << "===== CH PRODUCT DATA =====" << endl;
+            cout << "ID: " << ID[index] << endl;
+            cout << "Name: " << Product_Name[index] << endl;
+            cout << "Category: " << Category[index] << endl;
+            cout << "Price: RM" << fixed << setprecision(2) << Price[index] << endl;
+            cout << "Quantity: " << Quantity[index] << endl;
+            cout << "Reorder Level: " << Reorder_level[index] << endl;
+
+            cout << "Choose data to update (enter 0 to exit):" << endl;
+            cout << "1. Name \n2. Category \n3. Price \n4. Quantity \n5. Reorder Level \n0. Done updating" << endl;
+            cout << "Enter your choice: ";
+            cin >> choice;
+            cin.ignore();
+            // Switch statement to let the user choose which data to update, input validation for non-negative numbers where required and character data (same as in add_Product function)
+            switch (choice) {
             case 1:
-                // No input validation for product name 
+                // No input validation for product name
                 cout << "Enter new Product Name: ";
                 getline(cin, Product_Name[index]);
                 break;
             case 2:
                 // Listing out all allowed categories for the product and add according to them, if input is incorrect input again until correct
-                while (true) 
-                {
+                while (true) {
                     cout << "Enter new Category: ";
                     getline(cin, Category[index]);
                     bool hasDigit = false;
-                    for (char ch : Category[index]) 
-                    {
-                        if (isdigit(ch)) 
-                        { 
-                            hasDigit = true; 
-                            break; 
+                    for (char ch : Category[index]) {
+                        if (isdigit(ch)) {
+                            hasDigit = true;
+                            break;
                         }
                     }
                     if (hasDigit || Category[index].empty())
@@ -712,9 +691,8 @@ void update_Product()
                 }
                 break;
             case 3:
-                // Input validation for the price 
-                while (true) 
-                {
+                // Input validation for the price
+                while (true) {
                     cout << "Enter new Price: RM";
                     cin >> Price[index];
                     if (cin.fail() || Price[index] < 0) {
@@ -725,7 +703,7 @@ void update_Product()
                 }
                 break;
             case 4:
-                // Quantity of product input validation 
+                // Quantity of product input validation
                 while (true) {
                     cout << "Enter new Quantity: ";
                     cin >> Quantity[index];
@@ -737,7 +715,7 @@ void update_Product()
                 }
                 break;
             case 5:
-                // Input validation for reorder levels 
+                // Input validation for reorder levels
                 while (true) {
                     cout << "Enter new Reorder Level: ";
                     cin >> Reorder_level[index];
@@ -749,16 +727,16 @@ void update_Product()
                 }
                 break;
             case 0:
-                // Input 0 to exit the function 
+                // Input 0 to exit the function
                 cout << "Finished updating product." << endl;
                 break;
             default:
-                // Defaults to invalid if the chosen option is not within the choices available 
+                // Defaults to invalid if the chosen option is not within the choices available
                 cout << "Invalid choice. Please enter a number between 0 and 5." << endl;
-        }
-// Loops until "0" is entered 
-    } while (choice != 0);
-}
+            }
+        // Loops until "0" is entered
+        } while (choice != 0);
+    }
 
    /* 7. Save and exit
         a. Save the current inventory data into file
