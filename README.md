@@ -3,7 +3,6 @@
 #include <iomanip>
 #include <string>
 #include <cctype>
-#include <regex>
 using namespace std;
 
 const int MaxProducts = 100;
